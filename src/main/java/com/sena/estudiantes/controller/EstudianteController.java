@@ -30,6 +30,11 @@ public class EstudianteController {
         model.addAttribute("estudiante", estudiante);
         return "formulario";
     }
+    @GetMapping("/eliminar/{id}")
+    public String eliminarEstudiante(@PathVariable Long id) {
+        estudianteRepository.deleteById(id);
+        return "redirect:/estudiantes";
+    }
 
     // MOSTRAR FORMULARIO
     @GetMapping("/nuevo")
