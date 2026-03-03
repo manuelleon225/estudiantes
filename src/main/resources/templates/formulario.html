@@ -2,75 +2,73 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Registrar Estudiante</title>
+
+    <!-- Vinculación del archivo CSS -->
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
 <body>
 
-<h1>Registrar Estudiante</h1>
+<div class="contenedor">
 
-<!--
-    Formulario vinculado al objeto "estudiante"
-    th:object permite que los campos se enlacen automáticamente
--->
-<form th:action="@{/estudiantes/guardar}"
-      th:object="${estudiante}"
-      method="post">
+    <h1>Registrar Estudiante</h1>
 
-    <!-- Campo oculto para manejar edición -->
-    <input type="hidden" th:field="*{id}" />
+    <!--
+        Formulario vinculado al objeto estudiante
+        Permite que Thymeleaf conecte los campos automáticamente
+    -->
+    <form th:action="@{/estudiantes/guardar}"
+          th:object="${estudiante}"
+          method="post">
 
-    <!-- ============================= -->
-    <!-- CAMPO NOMBRE -->
-    <!-- ============================= -->
-    Nombres:
-    <input type="text" th:field="*{nombre}" />
+        <!-- ID oculto para edición -->
+        <input type="hidden" th:field="*{id}" />
 
-    <!-- Muestra error si existe validación fallida -->
-    <div th:if="${#fields.hasErrors('nombre')}"
-         th:errors="*{nombre}"
-         style="color:red; font-size:14px;"></div>
-    <br><br>
+        <!-- ============================= -->
+        <!-- NOMBRE -->
+        <!-- ============================= -->
+        <label>Nombres:</label>
+        <input type="text" th:field="*{nombre}" />
+        <div class="error"
+             th:if="${#fields.hasErrors('nombre')}"
+             th:errors="*{nombre}"></div>
 
-    <!-- ============================= -->
-    <!-- CAMPO APELLIDO -->
-    <!-- ============================= -->
-    Apellidos:
-    <input type="text" th:field="*{apellido}" />
+        <!-- ============================= -->
+        <!-- APELLIDO -->
+        <!-- ============================= -->
+        <label>Apellidos:</label>
+        <input type="text" th:field="*{apellido}" />
+        <div class="error"
+             th:if="${#fields.hasErrors('apellido')}"
+             th:errors="*{apellido}"></div>
 
-    <div th:if="${#fields.hasErrors('apellido')}"
-         th:errors="*{apellido}"
-         style="color:red; font-size:14px;"></div>
-    <br><br>
+        <!-- ============================= -->
+        <!-- EMAIL -->
+        <!-- ============================= -->
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" />
+        <div class="error"
+             th:if="${#fields.hasErrors('email')}"
+             th:errors="*{email}"></div>
 
-    <!-- ============================= -->
-    <!-- CAMPO EMAIL -->
-    <!-- ============================= -->
-    Email:
-    <input type="email" th:field="*{email}" />
+        <!-- ============================= -->
+        <!-- EDAD -->
+        <!-- ============================= -->
+        <label>Edad:</label>
+        <input type="number" th:field="*{edad}" />
+        <div class="error"
+             th:if="${#fields.hasErrors('edad')}"
+             th:errors="*{edad}"></div>
 
-    <div th:if="${#fields.hasErrors('email')}"
-         th:errors="*{email}"
-         style="color:red; font-size:14px;"></div>
-    <br><br>
+        <br>
 
-    <!-- ============================= -->
-    <!-- CAMPO EDAD -->
-    <!-- ============================= -->
-    Edad:
-    <input type="number" th:field="*{edad}" />
+        <button type="submit">Guardar</button>
 
-    <div th:if="${#fields.hasErrors('edad')}"
-         th:errors="*{edad}"
-         style="color:red; font-size:14px;"></div>
-    <br><br>
+    </form>
 
-    <!-- Botón de envío -->
-    <button type="submit">Guardar</button>
+    <br>
+    <a href="/estudiantes">Volver</a>
 
-</form>
-
-<br>
-
-<a href="/estudiantes">Volver</a>
+</div>
 
 </body>
 </html>
