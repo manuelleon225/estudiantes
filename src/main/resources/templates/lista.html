@@ -2,40 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Lista de Estudiantes</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
 <body>
 
-<h1>Lista de Estudiantes</h1>
+<div class="contenedor">
 
-<a href="/estudiantes/nuevo">Nuevo Estudiante</a>
+    <h1>Lista de Estudiantes</h1>
 
-<table border="2">
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Email</th>
-        <th>Edad</th>
-        <th>Acciones</th>
-    </tr>
+    <a href="/estudiantes/nuevo" class="boton-nuevo">Nuevo Estudiante</a>
 
-    <tr th:each="est : ${listaEstudiantes}">
-        <td th:text="${est.id}"></td>
-        <td th:text="${est.nombre}"></td>
-        <td th:text="${est.apellido}"></td>
-        <td th:text="${est.email}"></td>
-        <td th:text="${est.edad}"></td>
-        <td>
-            <a th:href="@{/estudiantes/editar/{id}(id=${est.id})}">Editar</a>
-            |
-            <a th:href="@{/estudiantes/eliminar/{id}(id=${est.id})}"
-               onclick="return confirm('¿Seguro que deseas eliminar este estudiante?')">
-                Eliminar
-            </a>
-        </td>
-    </tr>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Edad</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
 
-</table>
+        <tbody>
+        <tr th:each="est : ${listaEstudiantes}">
+            <td th:text="${est.id}"></td>
+            <td th:text="${est.nombre}"></td>
+            <td th:text="${est.apellido}"></td>
+            <td th:text="${est.email}"></td>
+            <td th:text="${est.edad}"></td>
+            <td>
+                <a th:href="@{/estudiantes/editar/{id}(id=${est.id})}"
+                   class="boton editar">Editar</a>
+
+                <a th:href="@{/estudiantes/eliminar/{id}(id=${est.id})}"
+                   class="boton eliminar"
+                   onclick="return confirm('¿Seguro que deseas eliminar este estudiante?')">
+                    Eliminar
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
 
 </body>
 </html>
