@@ -9,8 +9,8 @@
 
 <form th:action="@{/estudiantes/guardar}" th:object="${estudiante}" method="post">
     <input type="hidden" th:field="*{id}" />
-    Nombre: <input type="text" th:field="*{nombre}" /><br><br>
-    Apellido: <input type="text" th:field="*{apellido}" /><br><br>
+    Nombres: <input type="text" th:field="*{nombre}" /><br><br>
+    Apellidos: <input type="text" th:field="*{apellido}" /><br><br>
     Email: <input type="email" th:field="*{email}" /><br><br>
     Edad: <input type="number" th:field="*{edad}" /><br><br>
 
