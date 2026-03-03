@@ -1,22 +1,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Nuevo Estudiante</title>
+    <title>Registrar Estudiante</title>
 </head>
 <body>
 
 <h1>Registrar Estudiante</h1>
 
-<form th:action="@{/estudiantes/guardar}" th:object="${estudiante}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    Nombres: <input type="text" th:field="*{nombre}" /><br><br>
-    Apellidos: <input type="text" th:field="*{apellido}" /><br><br>
-    Email: <input type="email" th:field="*{email}" /><br><br>
-    Edad: <input type="number" th:field="*{edad}" /><br><br>
+<!--
+    Formulario vinculado al objeto "estudiante"
+    th:object permite que los campos se enlacen automáticamente
+-->
+<form th:action="@{/estudiantes/guardar}"
+      th:object="${estudiante}"
+      method="post">
 
+    <!-- Campo oculto para manejar edición -->
+    <input type="hidden" th:field="*{id}" />
+
+    <!-- ============================= -->
+    <!-- CAMPO NOMBRE -->
+    <!-- ============================= -->
+    Nombres:
+    <input type="text" th:field="*{nombre}" />
+
+    <!-- Muestra error si existe validación fallida -->
+    <div th:if="${#fields.hasErrors('nombre')}"
+         th:errors="*{nombre}"
+         style="color:red; font-size:14px;"></div>
+    <br><br>
+
+    <!-- ============================= -->
+    <!-- CAMPO APELLIDO -->
+    <!-- ============================= -->
+    Apellidos:
+    <input type="text" th:field="*{apellido}" />
+
+    <div th:if="${#fields.hasErrors('apellido')}"
+         th:errors="*{apellido}"
+         style="color:red; font-size:14px;"></div>
+    <br><br>
+
+    <!-- ============================= -->
+    <!-- CAMPO EMAIL -->
+    <!-- ============================= -->
+    Email:
+    <input type="email" th:field="*{email}" />
+
+    <div th:if="${#fields.hasErrors('email')}"
+         th:errors="*{email}"
+         style="color:red; font-size:14px;"></div>
+    <br><br>
+
+    <!-- ============================= -->
+    <!-- CAMPO EDAD -->
+    <!-- ============================= -->
+    Edad:
+    <input type="number" th:field="*{edad}" />
+
+    <div th:if="${#fields.hasErrors('edad')}"
+         th:errors="*{edad}"
+         style="color:red; font-size:14px;"></div>
+    <br><br>
+
+    <!-- Botón de envío -->
     <button type="submit">Guardar</button>
 
 </form>
+
+<br>
 
 <a href="/estudiantes">Volver</a>
 

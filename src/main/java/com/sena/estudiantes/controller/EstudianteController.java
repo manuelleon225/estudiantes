@@ -2,8 +2,10 @@ package com.sena.estudiantes.controller;
 
 import com.sena.estudiantes.model.Estudiante;
 import com.sena.estudiantes.service.EstudianteService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -12,19 +14,32 @@ public class EstudianteController {
 
     private final EstudianteService estudianteService;
 
-    // Inyección por constructor (buena práctica)
+    // Inyección por constructor (Buena práctica - Principio de Inversión de Dependencias)
     public EstudianteController(EstudianteService estudianteService) {
         this.estudianteService = estudianteService;
     }
 
-    // Método encargado de listar todos los estudiantes registrados
+    // ===============================
+    // LISTAR TODOS LOS ESTUDIANTES
+    // ===============================
     @GetMapping
     public String listarEstudiantes(Model model) {
         model.addAttribute("listaEstudiantes", estudianteService.listarTodos());
         return "lista";
     }
 
-    // Método encargado de mostrar el formulario con los datos del estudiante a editar
+    // ===============================
+    // MOSTRAR FORMULARIO NUEVO
+    // ===============================
+    @GetMapping("/nuevo")
+    public String mostrarFormulario(Model model) {
+        model.addAttribute("estudiante", new Estudiante());
+        return "formulario";
+    }
+
+    // ===============================
+    // EDITAR ESTUDIANTE
+    // ===============================
     @GetMapping("/editar/{id}")
     public String editarEstudiante(@PathVariable Long id, Model model) {
         Estudiante estudiante = estudianteService.buscarPorId(id);
@@ -32,24 +47,34 @@ public class EstudianteController {
         return "formulario";
     }
 
-    // Método encargado de eliminar un estudiante por su ID
+    // ===============================
+    // ELIMINAR ESTUDIANTE
+    // ===============================
     @GetMapping("/eliminar/{id}")
     public String eliminarEstudiante(@PathVariable Long id) {
         estudianteService.eliminar(id);
         return "redirect:/estudiantes";
     }
 
-    // Método encargado de mostrar el formulario para registrar un nuevo estudiante
-    @GetMapping("/nuevo")
-    public String mostrarFormulario(Model model) {
-        model.addAttribute("estudiante", new Estudiante());
-        return "formulario";
-    }
-
-    // Método encargado de guardar un estudiante (crear o actualizar)
+    // ===============================
+    // GUARDAR (CREAR O ACTUALIZAR)
+    // ===============================
     @PostMapping("/guardar")
-    public String guardarEstudiante(@ModelAttribute Estudiante estudiante) {
+    public String guardarEstudiante(
+            @Valid @ModelAttribute Estudiante estudiante, // Activa las validaciones de la entidad
+            BindingResult result,                         // Contiene los errores de validación
+            Model model) {
+
+        // Si existen errores de validación
+        if (result.hasErrors()) {
+            // Regresa al formulario mostrando los errores
+            return "formulario";
+        }
+
+        // Si no hay errores, guarda el estudiante
         estudianteService.guardar(estudiante);
+
+        // Redirige a la lista
         return "redirect:/estudiantes";
     }
 }

@@ -1,6 +1,7 @@
 package com.sena.estudiantes.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "estudiantes")
@@ -10,15 +11,23 @@ public class Estudiante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre es obligatorio")
+    @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
     @Column(nullable = false)
     private String nombre;
 
+    @NotBlank(message = "El apellido es obligatorio")
+    @Size(min = 2, max = 50, message = "El apellido debe tener entre 2 y 50 caracteres")
     @Column(nullable = false)
     private String apellido;
 
+    @NotBlank(message = "El email es obligatorio")
+    @Email(message = "Debe ingresar un email válido")
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotNull(message = "La edad es obligatoria")
+    @Min(value = 1, message = "La edad debe ser mayor a 0")
     private Integer edad;
 
     // Constructor vacío (OBLIGATORIO)
