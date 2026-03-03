@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Estudiantes</title>
     <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
@@ -8,42 +10,68 @@
 
 <div class="contenedor">
 
-    <h1>Lista de Estudiantes</h1>
+    <!-- Encabezado con botón -->
+    <div class="page-header">
+        <div class="icon">
+            <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+        </div>
+        <h1>Lista de Estudiantes</h1>
+    </div>
 
-    <a href="/estudiantes/nuevo" class="boton-nuevo">Nuevo Estudiante</a>
+    <div class="lista-header">
+        <a href="/estudiantes/nuevo" class="boton-nuevo">Nuevo Estudiante</a>
+    </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Email</th>
-            <th>Edad</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
+    <div class="tabla-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Edad</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
 
-        <tbody>
-        <tr th:each="est : ${listaEstudiantes}">
-            <td th:text="${est.id}"></td>
-            <td th:text="${est.nombre}"></td>
-            <td th:text="${est.apellido}"></td>
-            <td th:text="${est.email}"></td>
-            <td th:text="${est.edad}"></td>
-            <td>
-                <a th:href="@{/estudiantes/editar/{id}(id=${est.id})}"
-                   class="boton editar">Editar</a>
+            <tbody>
+            <tr th:each="est : ${listaEstudiantes}">
+                <td th:text="${est.id}"></td>
+                <td th:text="${est.nombre}"></td>
+                <td th:text="${est.apellido}"></td>
+                <td th:text="${est.email}"></td>
+                <td th:text="${est.edad}"></td>
+                <td>
+                    <div class="acciones">
+                        <a th:href="@{/estudiantes/editar/{id}(id=${est.id})}"
+                           class="boton editar">Editar</a>
 
-                <a th:href="@{/estudiantes/eliminar/{id}(id=${est.id})}"
-                   class="boton eliminar"
-                   onclick="return confirm('¿Seguro que deseas eliminar este estudiante?')">
-                    Eliminar
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                        <a th:href="@{/estudiantes/eliminar/{id}(id=${est.id})}"
+                           class="boton eliminar"
+                           onclick="return confirm('¿Seguro que deseas eliminar este estudiante?')">
+                            Eliminar
+                        </a>
+                    </div>
+                </td>
+            </tr>
+
+            <!-- Estado vacío -->
+            <tr th:if="${#lists.isEmpty(listaEstudiantes)}">
+                <td colspan="6">
+                    <div class="empty-state">
+                        <p>No hay estudiantes registrados aún.</p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>
 
