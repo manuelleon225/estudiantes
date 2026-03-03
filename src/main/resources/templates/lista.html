@@ -16,6 +16,7 @@
         <th>Apellido</th>
         <th>Email</th>
         <th>Edad</th>
+        <th>Acciones</th>
     </tr>
 
     <tr th:each="est : ${listaEstudiantes}">
@@ -24,6 +25,9 @@
         <td th:text="${est.apellido}"></td>
         <td th:text="${est.email}"></td>
         <td th:text="${est.edad}"></td>
+        <td>
+            <a th:href="@{/estudiantes/editar/{id}(id=${est.id})}">Editar</a>
+        </td>
     </tr>
 
 </table>

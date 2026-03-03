@@ -23,6 +23,13 @@ public class EstudianteController {
         model.addAttribute("listaEstudiantes", estudianteRepository.findAll());
         return "lista";
     }
+    @GetMapping("/editar/{id}")
+    public String editarEstudiante(@PathVariable Long id, Model model) {
+        Estudiante estudiante = estudianteRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID inválido: " + id));
+        model.addAttribute("estudiante", estudiante);
+        return "formulario";
+    }
 
     // MOSTRAR FORMULARIO
     @GetMapping("/nuevo")
