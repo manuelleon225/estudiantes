@@ -1,7 +1,7 @@
 package com.sena.estudiantes.controller;
 
 import com.sena.estudiantes.model.Estudiante;
-import com.sena.estudiantes.repository.EstudianteRepository;
+import com.sena.estudiantes.service.EstudianteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,43 +10,46 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/estudiantes")
 public class EstudianteController {
 
-    private final EstudianteRepository estudianteRepository;
+    private final EstudianteService estudianteService;
 
     // Inyección por constructor (buena práctica)
-    public EstudianteController(EstudianteRepository estudianteRepository) {
-        this.estudianteRepository = estudianteRepository;
+    public EstudianteController(EstudianteService estudianteService) {
+        this.estudianteService = estudianteService;
     }
 
-    // LISTAR ESTUDIANTES
+    // Método encargado de listar todos los estudiantes registrados
     @GetMapping
     public String listarEstudiantes(Model model) {
-        model.addAttribute("listaEstudiantes", estudianteRepository.findAll());
+        model.addAttribute("listaEstudiantes", estudianteService.listarTodos());
         return "lista";
     }
+
+    // Método encargado de mostrar el formulario con los datos del estudiante a editar
     @GetMapping("/editar/{id}")
     public String editarEstudiante(@PathVariable Long id, Model model) {
-        Estudiante estudiante = estudianteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ID inválido: " + id));
+        Estudiante estudiante = estudianteService.buscarPorId(id);
         model.addAttribute("estudiante", estudiante);
         return "formulario";
     }
+
+    // Método encargado de eliminar un estudiante por su ID
     @GetMapping("/eliminar/{id}")
     public String eliminarEstudiante(@PathVariable Long id) {
-        estudianteRepository.deleteById(id);
+        estudianteService.eliminar(id);
         return "redirect:/estudiantes";
     }
 
-    // MOSTRAR FORMULARIO
+    // Método encargado de mostrar el formulario para registrar un nuevo estudiante
     @GetMapping("/nuevo")
     public String mostrarFormulario(Model model) {
         model.addAttribute("estudiante", new Estudiante());
         return "formulario";
     }
 
-    // GUARDAR ESTUDIANTE
+    // Método encargado de guardar un estudiante (crear o actualizar)
     @PostMapping("/guardar")
     public String guardarEstudiante(@ModelAttribute Estudiante estudiante) {
-        estudianteRepository.save(estudiante);
+        estudianteService.guardar(estudiante);
         return "redirect:/estudiantes";
     }
 }
